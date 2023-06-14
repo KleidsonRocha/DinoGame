@@ -199,11 +199,7 @@ void loop() {
   if(pontuacao >= 10) posAltObstaculo2 = random(0,4);
   if(pontuacao >= 20) posAltObstaculo3 = random(0,4);
 
-
-
-  int tempoContagem = millis();
   int posicaoAnterior = posDinossauro;
-  int travaTempo = 0;
 
   while(posObstaculo >= -1) {
 
