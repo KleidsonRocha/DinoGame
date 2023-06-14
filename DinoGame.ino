@@ -196,13 +196,9 @@ void loop() {
   int posAltObstaculo2 = posAltObstaculo; 
   int posAltObstaculo3 = posAltObstaculo; 
 
-  if(pontuacao > 10) {
+  if(pontuacao >= 10) posAltObstaculo2 = random(0,4);
+  if(pontuacao >= 20) posAltObstaculo3 = random(0,4);
 
-    posAltObstaculo2 = random(0,4);
-  }
-  if(pontuacao > 20) {
-    posAltObstaculo3 = random(0,4);
-  }
 
 
   int tempoContagem = millis();
