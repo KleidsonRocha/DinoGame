@@ -1,4 +1,3 @@
-//notas para as musicas
 #define NOTE_B0 31
 #define NOTE_C1 33
 #define NOTE_CS1 35
@@ -99,7 +98,7 @@
 #define velBotao 300
 //lcd(numero do lcd, largura, altura)
 LiquidCrystal_I2C lcd(0x27,20,4); 
-
+//porta do buzzer
 int melody[] = {
   NOTE_B4, NOTE_B5, NOTE_FS5, NOTE_DS5,
   NOTE_B5, NOTE_FS5, NOTE_DS5, NOTE_C5,
@@ -127,7 +126,6 @@ int velocidade;
 int botaoVirtual = HIGH;
 int botaoVirtual2 = HIGH;
 
-//função que controla a musica
 void musica() {
   int size = sizeof(durations) / sizeof(int);
 
@@ -144,7 +142,6 @@ void musica() {
 
 }
 
-// tela inicial do jogo
 void telaInicial() {
   lcd.clear();
   lcd.setCursor(5, 1);
@@ -162,7 +159,6 @@ void telaInicial() {
   loop();  
 }
 
-// faz a animação de batida e mostra uma tela com a pontuação
 void bateu() {    
     lcd.setCursor(2, posDinossauro);
     lcd.print("X");
@@ -180,7 +176,6 @@ void bateu() {
 }
 
 
-//inicia as portas do arduino
 void setup() {  
   Serial.begin(9600);
   pinMode(botao_sobe, INPUT_PULLUP);
@@ -196,34 +191,42 @@ void setup() {
 //faz todo o codigo do jogo desde posição do dino a obstaculo
 void loop() {
   
-  //gera o obstaculo
   int posObstaculo = 20;
   int posAltObstaculo = random(0, 4); 
-  int posAltObstaculo2 = random(0,4);
-  int posAltObstaculo3 = random(0,4);
+  int posAltObstaculo2 = posAltObstaculo; 
+  int posAltObstaculo3 = posAltObstaculo; 
 
+  if(pontuacao > 10) {
+
+    posAltObstaculo2 = random(0,4);
+  }
+  if(pontuacao > 20) {
+    posAltObstaculo3 = random(0,4);
+  }
+
+
+  int tempoContagem = millis();
   int posicaoAnterior = posDinossauro;
+  int travaTempo = 0;
 
-  //while que deixa todo codigo "assincrono"
   while(posObstaculo >= -1) {
 
-    //desenha o obstaculo
+    //desenha o obstaculo e o dinosauro
     lcd.setCursor(posObstaculo, posAltObstaculo);
     lcd.print("#");
     lcd.setCursor(posObstaculo, posAltObstaculo2);
     lcd.print("#");
     lcd.setCursor(posObstaculo, posAltObstaculo3);
     lcd.print("#");
-    //desenha o dinoussauro
     lcd.setCursor(2, posDinossauro);
     lcd.print("&");
-    //mostra a pontuação
     lcd.setCursor(17, 0);
     lcd.print(pontuacao);
+    
+
 
     delay(velocidade);
 
-    //apaga os obstaculos
     lcd.setCursor(posObstaculo, posAltObstaculo);
     lcd.print(" ");
     lcd.setCursor(posObstaculo, posAltObstaculo2);
